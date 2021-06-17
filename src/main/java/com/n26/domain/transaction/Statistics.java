@@ -7,65 +7,85 @@ import java.util.Comparator;
 public class Statistics {
   BigDecimal sum;
   BigDecimal average;
-  BigDecimal minumum;
+  BigDecimal minimum;
   BigDecimal maximum;
   Long count;
 
   private Statistics(
     BigDecimal sum,
     BigDecimal average,
-    BigDecimal minumum,
+    BigDecimal minimum,
     BigDecimal maximum,
     Long count
   ) {
     this.sum = sum;
     this.average = average;
-    this.minumum = minumum;
+    this.minimum = minimum;
     this.maximum = maximum;
     this.count = count;
   }
-  
+
   public static Statistics from(Collection<Transaction> transactions) {
     return new Statistics(
-      getSum(transactions),
-      getAverage(transactions),
-      getMinimum(transactions),
-      getMaximum(transactions),
-      getCount(transactions)
+      computeSum(transactions),
+      computeAverage(transactions),
+      computeMinimum(transactions),
+      computeMaximum(transactions),
+      computeCount(transactions)
     );
   }
 
-  static BigDecimal getSum(Collection<Transaction> transactions) {
+  static BigDecimal computeSum(Collection<Transaction> transactions) {
     return transactions.stream()
       .map(Transaction::getAmount)
       .reduce(BigDecimal::add)
       .orElseGet(() -> new BigDecimal(0));
   }
 
-  static BigDecimal getAverage(Collection<Transaction> transactions) {
+  static BigDecimal computeAverage(Collection<Transaction> transactions) {
     if (transactions.isEmpty()) {
       return new BigDecimal(0);
     }
     
-    return Statistics.getSum(transactions)
+    return Statistics.computeSum(transactions)
       .divide(new BigDecimal(transactions.size()));
   }
 
-  static BigDecimal getMaximum(Collection<Transaction> transactions) {
+  static BigDecimal computeMaximum(Collection<Transaction> transactions) {
     return transactions.stream()
     .map(Transaction::getAmount)
     .max(Comparator.naturalOrder())
     .orElseGet(() -> new BigDecimal(0));
   }
 
-  static BigDecimal getMinimum(Collection<Transaction> transactions) {
+  static BigDecimal computeMinimum(Collection<Transaction> transactions) {
     return transactions.stream()
     .map(Transaction::getAmount)
     .min(Comparator.naturalOrder())
     .orElseGet(() -> new BigDecimal(0));
   }
 
-  static Long getCount(Collection<Transaction> transactions) {
+  static Long computeCount(Collection<Transaction> transactions) {
     return new Long(transactions.size());
+  }
+
+  public BigDecimal getSum() {
+    return sum;
+  }
+  
+  public BigDecimal getAverage() {
+    return average;
+  }
+
+  public BigDecimal getMaximum() {
+    return maximum;
+  }
+
+  public BigDecimal getMinimum() {
+    return minimum;
+  }
+
+  public Long getCount() {
+    return count;
   }
 }

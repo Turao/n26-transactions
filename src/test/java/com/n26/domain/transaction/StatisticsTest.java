@@ -18,7 +18,7 @@ public class StatisticsTest {
 
   @Test
   public void givenNoTransactions_whenComputingSum_ShouldBeZero() {
-    BigDecimal sum = Statistics.getSum(new ArrayList<Transaction>());
+    BigDecimal sum = Statistics.computeSum(new ArrayList<Transaction>());
     assertThat(sum).isZero();
   }
 
@@ -27,7 +27,7 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal sum = Statistics.getSum(transactions);
+    BigDecimal sum = Statistics.computeSum(transactions);
 
     assertThat(sum).isEqualTo(new BigDecimal(10));
   }
@@ -38,7 +38,7 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal sum = Statistics.getSum(transactions);
+    BigDecimal sum = Statistics.computeSum(transactions);
 
     assertThat(sum).isEqualTo(new BigDecimal(30));
   }
@@ -55,7 +55,7 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal average = Statistics.getAverage(transactions);
+    BigDecimal average = Statistics.computeAverage(transactions);
 
     assertThat(average).isEqualTo(new BigDecimal(10));
   }
@@ -66,7 +66,7 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal average = Statistics.getAverage(transactions);
+    BigDecimal average = Statistics.computeAverage(transactions);
 
     assertThat(average).isEqualTo(new BigDecimal(15));
   }
@@ -74,7 +74,7 @@ public class StatisticsTest {
 
   @Test
   public void givenNoTransactions_whenComputingMaximum_ShouldBeZero() {
-    BigDecimal maximum = Statistics.getMaximum(new ArrayList<Transaction>());
+    BigDecimal maximum = Statistics.computeMaximum(new ArrayList<Transaction>());
     assertThat(maximum).isZero();
   }
 
@@ -83,7 +83,7 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal maximum = Statistics.getMaximum(transactions);
+    BigDecimal maximum = Statistics.computeMaximum(transactions);
 
     assertThat(maximum).isEqualTo(new BigDecimal(10));
   }
@@ -94,7 +94,7 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal maximum = Statistics.getMaximum(transactions);
+    BigDecimal maximum = Statistics.computeMaximum(transactions);
 
     assertThat(maximum).isEqualTo(new BigDecimal(20));
   }
@@ -102,7 +102,7 @@ public class StatisticsTest {
 
   @Test
   public void givenNoTransactions_whenComputingMinimum_ShouldBeZero() {
-    BigDecimal minimum = Statistics.getMinimum(new ArrayList<Transaction>());
+    BigDecimal minimum = Statistics.computeMinimum(new ArrayList<Transaction>());
     assertThat(minimum).isZero();
   }
 
@@ -111,7 +111,7 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal minimum = Statistics.getMinimum(transactions);
+    BigDecimal minimum = Statistics.computeMinimum(transactions);
 
     assertThat(minimum).isEqualTo(new BigDecimal(10));
   }
@@ -122,7 +122,7 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal minimum = Statistics.getMinimum(transactions);
+    BigDecimal minimum = Statistics.computeMinimum(transactions);
 
     assertThat(minimum).isEqualTo(new BigDecimal(10));
   }
