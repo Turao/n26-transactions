@@ -26,7 +26,6 @@ public class InsertTransactionTest {
   @Test
   public void givenAnInsertTransactionRequest_whenProcessing_shouldInsertToDatabase() {
     InsertTransactionRequest request = new InsertTransactionRequest(
-      UUID.randomUUID(),
       new BigDecimal("12.345"), 
       OffsetDateTime.now()
     );

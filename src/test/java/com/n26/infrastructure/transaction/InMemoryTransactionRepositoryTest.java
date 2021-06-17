@@ -21,7 +21,6 @@ public class InMemoryTransactionRepositoryTest {
   @Test
   public void givenATransaction_whenInsertingOne_shouldAddToCollection() {
     Transaction transaction = new Transaction(
-      UUID.randomUUID(),
       new BigDecimal("12.12345"),
       OffsetDateTime.now()
     );

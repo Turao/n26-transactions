@@ -23,7 +23,6 @@ public class InsertTransaction implements Command<InsertTransactionRequest> {
   public void execute(final InsertTransactionRequest request) {
     LOGGER.debug("Inserting Transaction...");
     Transaction transaction = new Transaction(
-      request.getTransactionId(),
       request.getAmount(),
       request.getTimestamp()
     );
