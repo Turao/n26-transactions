@@ -22,5 +22,11 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     LOGGER.debug("inserting transaction into in-memory database (mock)");
     transactions.add(transaction);
   }
+
+  @Override
+  public Collection<Transaction> getLastMinuteTransactions() {
+    LOGGER.debug("Getting last minute transactions");
+    return transactions;
+  }
   
 }

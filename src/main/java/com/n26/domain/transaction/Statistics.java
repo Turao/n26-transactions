@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Comparator;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class Statistics {
   BigDecimal sum;
   BigDecimal average;
