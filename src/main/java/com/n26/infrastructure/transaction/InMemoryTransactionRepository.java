@@ -1,5 +1,8 @@
 package com.n26.infrastructure.transaction;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import com.n26.domain.transaction.Transaction;
 import com.n26.domain.transaction.TransactionRepository;
 
@@ -12,9 +15,12 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
+  final Collection<Transaction> transactions = new HashSet<Transaction>();
+
   @Override
   public void insertOne(Transaction transaction) {
     LOGGER.debug("inserting transaction into in-memory database (mock)");
+    transactions.add(transaction);
   }
   
 }
