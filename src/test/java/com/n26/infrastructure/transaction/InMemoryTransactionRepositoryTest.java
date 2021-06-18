@@ -96,4 +96,20 @@ public class InMemoryTransactionRepositoryTest {
       .contains(lessThanAMinuteOldTransaction)
       .doesNotContain(moreThanAMinuteOldTransaction);
   }
+
+  @Test
+  public void givenATransactionId_whenRemovingOneTransaction_shouldRemoveFromDatabase() {
+    Transaction transaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now()
+    );
+
+    repository.transactions.put(transaction.getTransactionId(), transaction);
+
+    assertThat(repository.transactions).hasSize(1);
+    
+    repository.removeOne(transaction.getTransactionId());
+    
+    assertThat(repository.transactions).isEmpty();
+  }
 }

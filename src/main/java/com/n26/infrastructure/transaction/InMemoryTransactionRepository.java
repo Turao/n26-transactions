@@ -19,7 +19,7 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
-  ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<UUID, Transaction>();
+  final ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<UUID, Transaction>();
 
   @Override
   public void insertOne(final Transaction transaction) {
@@ -50,5 +50,11 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   public void removeAll() {
     LOGGER.debug("Removing all transactions");
     transactions.clear();    
+  }
+
+  @Override
+  public void removeOne(UUID transactionId) {
+    LOGGER.debug("Removing Transaction: {}", transactionId);
+    transactions.remove(transactionId);
   }  
 }
