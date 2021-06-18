@@ -2,7 +2,9 @@ package com.n26.infrastructure.transaction;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 import com.n26.domain.transaction.Transaction;
@@ -17,12 +19,12 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
-  Collection<Transaction> transactions = new LinkedBlockingDeque<Transaction>();
+  ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<UUID, Transaction>();
 
   @Override
   public void insertOne(final Transaction transaction) {
     LOGGER.debug("Inserting transaction into in-memory database (mock)");
-    transactions.add(transaction);
+    transactions.put(transaction.getTransactionId(), transaction);
   }
 
   @Override
@@ -31,12 +33,13 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     return filterLessThanAMinuteOldTransactions(transactions);
   }
   
-  private Collection<Transaction> filterLessThanAMinuteOldTransactions(Collection<Transaction> transactions) {
+  private Collection<Transaction> filterLessThanAMinuteOldTransactions(ConcurrentMap<UUID, Transaction> transactions) {
     LOGGER.debug("Filtering all transactions less than a minute old");
     return transactions
+      .values()
       .stream()
       .filter(this::isTransactionLessThanAMinuteOld)
-      .collect(Collectors.toCollection(LinkedBlockingDeque::new));
+      .collect(Collectors.toList());
   }
 
   private boolean isTransactionLessThanAMinuteOld(final Transaction transaction) {
@@ -47,12 +50,5 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   public void removeAll() {
     LOGGER.debug("Removing all transactions");
     transactions.clear();    
-  }
-
-  @Override
-  public void removeLastMinuteTransactions() {
-    LOGGER.debug("Removing last minute transactions");
-    transactions.removeIf(transaction -> !isTransactionLessThanAMinuteOld(transaction));
-  }
-  
+  }  
 }

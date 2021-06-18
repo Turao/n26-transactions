@@ -39,7 +39,10 @@ public class InMemoryTransactionRepositoryTest {
       OffsetDateTime.now()
     );
 
-    repository.transactions.add(lessThanAMinuteOldTransaction);
+    repository.transactions.put(
+      lessThanAMinuteOldTransaction.getTransactionId(),
+      lessThanAMinuteOldTransaction
+    );
 
     Collection<Transaction> lastMinuteTransactions = repository.getLastMinuteTransactions();
     
@@ -54,7 +57,10 @@ public class InMemoryTransactionRepositoryTest {
       OffsetDateTime.now().minusSeconds(61)
     );
 
-    repository.transactions.add(moreThanAMinuteOldTransaction);
+    repository.transactions.put(
+      moreThanAMinuteOldTransaction.getTransactionId(),  
+      moreThanAMinuteOldTransaction
+    );
 
     Collection<Transaction> lastMinuteTransactions = repository.getLastMinuteTransactions();
     
@@ -73,34 +79,20 @@ public class InMemoryTransactionRepositoryTest {
       OffsetDateTime.now().minusSeconds(61)
     );
 
-    repository.transactions.add(lessThanAMinuteOldTransaction);
-    repository.transactions.add(moreThanAMinuteOldTransaction);
+    repository.transactions.put(
+      lessThanAMinuteOldTransaction.getTransactionId(),
+      lessThanAMinuteOldTransaction
+    );
+    
+    repository.transactions.put(
+      moreThanAMinuteOldTransaction.getTransactionId(),
+      moreThanAMinuteOldTransaction
+    );
+
 
     Collection<Transaction> lastMinuteTransactions = repository.getLastMinuteTransactions();
     
     assertThat(lastMinuteTransactions)
-      .contains(lessThanAMinuteOldTransaction)
-      .doesNotContain(moreThanAMinuteOldTransaction);
-  }
-
-  @Test
-  public void givenSomeTransactions_whenRemovingLastMinuteTransactions_shouldRemoveThem() {
-    Transaction lessThanAMinuteOldTransaction = new Transaction(
-      new BigDecimal("12.12345"),
-      OffsetDateTime.now().minusSeconds(30)
-    );
-    
-    Transaction moreThanAMinuteOldTransaction = new Transaction(
-      new BigDecimal("12.12345"),
-      OffsetDateTime.now().minusSeconds(61)
-    );
-
-    repository.transactions.add(lessThanAMinuteOldTransaction);
-    repository.transactions.add(moreThanAMinuteOldTransaction);
-
-    repository.removeLastMinuteTransactions();
-    
-    assertThat(repository.transactions)
       .contains(lessThanAMinuteOldTransaction)
       .doesNotContain(moreThanAMinuteOldTransaction);
   }
