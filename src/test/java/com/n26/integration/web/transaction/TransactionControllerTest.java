@@ -7,6 +7,7 @@ import java.time.OffsetDateTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n26.usecases.inserttransaction.InsertTransaction;
+import com.n26.usecases.removealltransactions.RemoveAllTransactions;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,7 @@ public class TransactionControllerTest {
   @Autowired private ObjectMapper objectMapper;
 
   @MockBean private InsertTransaction insertTransaction;
+  @MockBean private RemoveAllTransactions removeAllTransactions;
 
   @Test
   public void onInsertTransactionRequest_shouldInsertTransaction() throws Exception {
@@ -41,5 +43,14 @@ public class TransactionControllerTest {
 
     mvc.perform(request)
       .andExpect(status().isOk());
+  }
+
+  @Test
+  public void onRemoveAllTransactionsRequest_shouldRemoveAllTransactions() throws Exception {
+    MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+      .delete("/transactions");
+
+    mvc.perform(request)
+      .andExpect(status().isNoContent());
   }
 }

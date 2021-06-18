@@ -28,5 +28,11 @@ public class InMemoryTransactionRepository implements TransactionRepository {
     LOGGER.debug("Getting last minute transactions");
     return transactions;
   }
+
+  @Override
+  public void removeAll() {
+    LOGGER.debug("Removing all transactions");
+    transactions.clear();    
+  }
   
 }
