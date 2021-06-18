@@ -43,7 +43,7 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   }
 
   private boolean isTransactionLessThanAMinuteOld(final Transaction transaction) {
-    return transaction.getTimestamp().isAfter(OffsetDateTime.now().minusMinutes(1));
+    return !transaction.isOlderThan(OffsetDateTime.now().minusMinutes(1));
   }
 
   @Override
