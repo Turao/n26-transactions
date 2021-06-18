@@ -1,7 +1,9 @@
 package com.n26.infrastructure.transaction;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 
 import com.n26.domain.transaction.Transaction;
 import com.n26.domain.transaction.TransactionRepository;
@@ -26,7 +28,14 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   @Override
   public Collection<Transaction> getLastMinuteTransactions() {
     LOGGER.debug("Getting last minute transactions");
-    return transactions;
+    return transactions
+      .stream()
+      .filter(this::isTransactionLessThanAMinuteOld)
+      .collect(Collectors.toList());
+  }
+
+  private boolean isTransactionLessThanAMinuteOld(Transaction transaction) {
+    return transaction.getTimestamp().isAfter(OffsetDateTime.now().minusMinutes(1));
   }
 
   @Override

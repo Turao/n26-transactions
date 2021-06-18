@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.UUID;
+import java.util.Collection;
 
 import com.n26.domain.transaction.Transaction;
 
@@ -30,5 +30,56 @@ public class InMemoryTransactionRepositoryTest {
     repository.insertOne(transaction);
     
     assertThat(repository.transactions).hasSize(1);
+  }
+
+  @Test
+  public void givenATransactionLessThanOneMinuteOld_whenGettingLastMinuteTransactions_shouldGetTransaction() {
+    Transaction lessThanAMinuteOldTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now()
+    );
+
+    repository.transactions.add(lessThanAMinuteOldTransaction);
+
+    Collection<Transaction> lastMinuteTransactions = repository.getLastMinuteTransactions();
+    
+    assertThat(lastMinuteTransactions)
+      .contains(lessThanAMinuteOldTransaction);
+  }
+
+  @Test
+  public void givenNoTransactionLessThanOneMinuteOld_whenGettingLastMinuteTransactions_shouldGetNothing() {
+    Transaction moreThanAMinuteOldTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now().minusSeconds(61)
+    );
+
+    repository.transactions.add(moreThanAMinuteOldTransaction);
+
+    Collection<Transaction> lastMinuteTransactions = repository.getLastMinuteTransactions();
+    
+    assertThat(lastMinuteTransactions).isEmpty();
+  }
+
+  @Test
+  public void givenSomeTransactionLessThanOneMinuteOld_whenGettingLastMinuteTransactions_shouldGetThem() {
+    Transaction lessThanAMinuteOldTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now().minusSeconds(30)
+    );
+    
+    Transaction moreThanAMinuteOldTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now().minusSeconds(61)
+    );
+
+    repository.transactions.add(lessThanAMinuteOldTransaction);
+    repository.transactions.add(moreThanAMinuteOldTransaction);
+
+    Collection<Transaction> lastMinuteTransactions = repository.getLastMinuteTransactions();
+    
+    assertThat(lastMinuteTransactions)
+      .contains(lessThanAMinuteOldTransaction)
+      .doesNotContain(moreThanAMinuteOldTransaction);
   }
 }
