@@ -1,6 +1,7 @@
 package com.n26.infrastructure.transaction;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -17,7 +18,7 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
-  final Collection<Transaction> transactions = new HashSet<Transaction>();
+  final Collection<Transaction> transactions = new ArrayList<Transaction>();
 
   @Override
   public void insertOne(Transaction transaction) {
