@@ -6,6 +6,7 @@ import com.n26.usecases.inserttransaction.InsertTransactionRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/transactions")
@@ -19,7 +20,7 @@ public class TransactionController {
   }
 
   @PostMapping
-  public void onInsertTransactionRequest(InsertTransactionRequestDTO request) {
+  public void onInsertTransactionRequest(@RequestBody InsertTransactionRequestDTO request) {
     LOGGER.info("Processing new InsertTransactionRequest: {}", request);
     insertTransaction.execute(new InsertTransactionRequest(request.getAmount(), request.getTimestamp()));
   }

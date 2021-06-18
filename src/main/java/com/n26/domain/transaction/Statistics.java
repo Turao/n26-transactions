@@ -1,6 +1,7 @@
 package com.n26.domain.transaction;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -8,11 +9,11 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
 public class Statistics {
-  BigDecimal sum;
-  BigDecimal average;
-  BigDecimal minimum;
-  BigDecimal maximum;
-  Long count;
+  final BigDecimal sum;
+  final BigDecimal average;
+  final BigDecimal minimum;
+  final BigDecimal maximum;
+  final Long count;
 
   private Statistics(
     BigDecimal sum,
@@ -21,10 +22,10 @@ public class Statistics {
     BigDecimal maximum,
     Long count
   ) {
-    this.sum = sum;
-    this.average = average;
-    this.minimum = minimum;
-    this.maximum = maximum;
+    this.sum = sum.setScale(2, RoundingMode.HALF_UP);
+    this.average = average.setScale(2, RoundingMode.HALF_UP);
+    this.minimum = minimum.setScale(2, RoundingMode.HALF_UP);
+    this.maximum = maximum.setScale(2, RoundingMode.HALF_UP);
     this.count = count;
   }
 
@@ -51,7 +52,7 @@ public class Statistics {
     }
     
     return Statistics.computeSum(transactions)
-      .divide(new BigDecimal(transactions.size()));
+      .divide(new BigDecimal(transactions.size()), RoundingMode.HALF_UP);
   }
 
   static BigDecimal computeMaximum(Collection<Transaction> transactions) {
