@@ -82,4 +82,26 @@ public class InMemoryTransactionRepositoryTest {
       .contains(lessThanAMinuteOldTransaction)
       .doesNotContain(moreThanAMinuteOldTransaction);
   }
+
+  @Test
+  public void givenSomeTransactions_whenRemovingLastMinuteTransactions_shouldRemoveThem() {
+    Transaction lessThanAMinuteOldTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now().minusSeconds(30)
+    );
+    
+    Transaction moreThanAMinuteOldTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now().minusSeconds(61)
+    );
+
+    repository.transactions.add(lessThanAMinuteOldTransaction);
+    repository.transactions.add(moreThanAMinuteOldTransaction);
+
+    repository.removeLastMinuteTransactions();
+    
+    assertThat(repository.transactions)
+      .contains(lessThanAMinuteOldTransaction)
+      .doesNotContain(moreThanAMinuteOldTransaction);
+  }
 }

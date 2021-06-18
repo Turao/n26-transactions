@@ -32,7 +32,7 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   }
   
   private Collection<Transaction> filterLessThanAMinuteOldTransactions(Collection<Transaction> transactions) {
-    LOGGER.debug("Filtering all transactions less than a minute old...");
+    LOGGER.debug("Filtering all transactions less than a minute old");
     return transactions
       .stream()
       .filter(this::isTransactionLessThanAMinuteOld)
@@ -47,6 +47,12 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   public void removeAll() {
     LOGGER.debug("Removing all transactions");
     transactions.clear();    
+  }
+
+  @Override
+  public void removeLastMinuteTransactions() {
+    LOGGER.debug("Removing last minute transactions");
+    transactions.removeIf(transaction -> !isTransactionLessThanAMinuteOld(transaction));
   }
   
 }

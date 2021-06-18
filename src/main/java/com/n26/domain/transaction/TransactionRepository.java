@@ -6,4 +6,5 @@ public interface TransactionRepository {
   void insertOne(Transaction transaction);
   Collection<Transaction> getLastMinuteTransactions();
   void removeAll();
+  void removeLastMinuteTransactions();
 }
