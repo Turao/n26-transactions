@@ -1,9 +1,8 @@
 package com.n26.infrastructure.transaction;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
 
 import com.n26.domain.transaction.Transaction;
@@ -18,24 +17,30 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
-  final Collection<Transaction> transactions = new ArrayList<Transaction>();
+  Collection<Transaction> transactions = new LinkedBlockingDeque<Transaction>();
 
   @Override
-  public void insertOne(Transaction transaction) {
-    LOGGER.debug("inserting transaction into in-memory database (mock)");
+  public void insertOne(final Transaction transaction) {
+    LOGGER.debug("Inserting transaction into in-memory database (mock)");
     transactions.add(transaction);
   }
 
   @Override
   public Collection<Transaction> getLastMinuteTransactions() {
     LOGGER.debug("Getting last minute transactions");
+    transactions = discardTransactionsMoreThanAMinuteOld();
+    return transactions;
+  }
+  
+  private Collection<Transaction> discardTransactionsMoreThanAMinuteOld() {
+    LOGGER.debug("Discarding all transactions more than a minute old...");
     return transactions
       .stream()
       .filter(this::isTransactionLessThanAMinuteOld)
-      .collect(Collectors.toList());
+      .collect(Collectors.toCollection(LinkedBlockingDeque::new));
   }
 
-  private boolean isTransactionLessThanAMinuteOld(Transaction transaction) {
+  private boolean isTransactionLessThanAMinuteOld(final Transaction transaction) {
     return transaction.getTimestamp().isAfter(OffsetDateTime.now().minusMinutes(1));
   }
 
