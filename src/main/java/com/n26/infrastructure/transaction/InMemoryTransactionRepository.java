@@ -28,12 +28,11 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   @Override
   public Collection<Transaction> getLastMinuteTransactions() {
     LOGGER.debug("Getting last minute transactions");
-    transactions = discardTransactionsMoreThanAMinuteOld();
-    return transactions;
+    return filterLessThanAMinuteOldTransactions(transactions);
   }
   
-  private Collection<Transaction> discardTransactionsMoreThanAMinuteOld() {
-    LOGGER.debug("Discarding all transactions more than a minute old...");
+  private Collection<Transaction> filterLessThanAMinuteOldTransactions(Collection<Transaction> transactions) {
+    LOGGER.debug("Filtering all transactions less than a minute old...");
     return transactions
       .stream()
       .filter(this::isTransactionLessThanAMinuteOld)
