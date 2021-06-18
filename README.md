@@ -1,7 +1,7 @@
 # n26-coding-challenge
 
-# Requirements
-
+## Requirements
+### Hard
 - [ ] Application runs in Maven
   - [ ] `mvn clean install` and `mvn clean integration-test` complete succesfully
 - [ ] API is thread-safe (i.e. supports concurrent requests)
@@ -11,4 +11,8 @@
 - [ ] Project has unit tests
 - [ ] No changes have been done to integration tests @ `src/it`
 - [ ] Solution is production-ready
+
+### Soft
+- [ ] O(1) time complexity
+- [ ] O(1) space complexity
 
