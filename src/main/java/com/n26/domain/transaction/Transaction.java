@@ -10,8 +10,13 @@ public class Transaction {
   OffsetDateTime timestamp;
 
   public Transaction(final BigDecimal amount, final OffsetDateTime timestamp) {
-    this.transactionId = UUID.randomUUID();
+    this.transactionId = UUID.randomUUID();    
     this.amount = amount;
+
+    if (timestamp.isAfter(OffsetDateTime.now())) {
+      throw new IllegalArgumentException("Transaction date is in the future");
+    }
+    
     this.timestamp = timestamp;
   }
 
@@ -24,8 +29,11 @@ public class Transaction {
     return amount;
   }
 
+  public OffsetDateTime getTimestamp() {
+    return timestamp;
+  }
+
   public boolean isOlderThan(OffsetDateTime dateTime) {
     return timestamp.isBefore(dateTime);
   }
-
 }
