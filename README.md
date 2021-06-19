@@ -2,7 +2,7 @@
 
 ## Description
 
-The **N26 Coding Challenge** application is a Spring-Boot application that provides a RESTful API for computing realtime transaction statistics.
+The **N26 Coding Challenge** application is a Spring-Boot application that provides a RESTful API for computing real-time transaction statistics.
 In this challenge, ONLY recent transactions (less than a minute old) MUST be considered. All others MUST be discarded.
 There is no restriction of when to discard irrelevant transactions.
 
