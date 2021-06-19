@@ -71,7 +71,8 @@ The following use cases have been identified:
   - side-effects:
     - asks for a re-calculation of statistics
 - `Get Statistics`: queries the Transaction storage for most recent (less than a minute old) statistics
-- `Schedule Transaction For Expiration`: discards a transaction when it's time-to-live expires
+- `Schedule Transaction For Expiration`: schedules a Transaction to be expired when it reaches its "relevancy deadline" (in this case, 60 seconds after its timestamp)
+- `Expire a Transaction`: removes a transaction from the Transaction storage
   - side-effects:
     - asks for a re-calculation of statistics
 
