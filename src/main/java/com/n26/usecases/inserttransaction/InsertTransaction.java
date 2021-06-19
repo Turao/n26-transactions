@@ -21,7 +21,6 @@ public class InsertTransaction implements Command<InsertTransactionRequest> {
   private final TransactionRepository transactionRepository;
   private final ScheduleTransactionForExpiration scheduleTransactionForExpiration;
 
-
   public InsertTransaction(
     final TransactionRepository transactionRepository,
     final ScheduleTransactionForExpiration scheduleTransactionForExpiration) {
