@@ -24,12 +24,13 @@ public class TransactionExpirationSchedulerTest {
   public void givenATransactionId_whenSchedulingForExpiration_shouldWaitAndRemoveFromDatabase() {
     UUID transactionId = UUID.randomUUID();
 
+    long timeToLive = TimeUnit.SECONDS.toMillis(1);
     transactionExpirationScheduler.execute(
-      new ScheduleTransactionForExpirationRequest(transactionId, TimeUnit.SECONDS.toMillis(1))
+      new ScheduleTransactionForExpirationRequest(transactionId, timeToLive)
     );
 
     then(transactionRepository)
-      .should(after(TimeUnit.MINUTES.toMillis(1)).times(1))
+      .should(after(timeToLive).times(1))
       .removeOne(transactionId);
   }
 }

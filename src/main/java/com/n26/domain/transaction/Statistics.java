@@ -31,42 +31,43 @@ public class Statistics {
 
   public static Statistics from(Collection<Transaction> transactions) {
     return new Statistics(
-      computeSum(transactions),
-      computeAverage(transactions),
-      computeMinimum(transactions),
-      computeMaximum(transactions),
+      computeSum(transactions).asBigDecimal(),
+      computeAverage(transactions).asBigDecimal(),
+      computeMinimum(transactions).asBigDecimal(),
+      computeMaximum(transactions).asBigDecimal(),
       computeCount(transactions)
     );
   }
 
-  static BigDecimal computeSum(Collection<Transaction> transactions) {
+  static Amount computeSum(Collection<Transaction> transactions) {
     return transactions.stream()
       .map(Transaction::getAmount)
-      .reduce(BigDecimal::add)
-      .orElseGet(() -> new BigDecimal(0));
+      .reduce(Amount::add)
+      .orElseGet(() -> new Amount(0));
   }
 
-  static BigDecimal computeAverage(Collection<Transaction> transactions) {
+  static Amount computeAverage(Collection<Transaction> transactions) {
     if (transactions.isEmpty()) {
-      return new BigDecimal(0);
+      return new Amount(0);
     }
-    
-    return Statistics.computeSum(transactions)
-      .divide(new BigDecimal(transactions.size()), RoundingMode.HALF_UP);
+
+    return Statistics
+      .computeSum(transactions)
+      .divide(new Amount(transactions.size()));
   }
 
-  static BigDecimal computeMaximum(Collection<Transaction> transactions) {
+  static Amount computeMaximum(Collection<Transaction> transactions) {
     return transactions.stream()
     .map(Transaction::getAmount)
     .max(Comparator.naturalOrder())
-    .orElseGet(() -> new BigDecimal(0));
+    .orElseGet(() -> new Amount(0));
   }
 
-  static BigDecimal computeMinimum(Collection<Transaction> transactions) {
+  static Amount computeMinimum(Collection<Transaction> transactions) {
     return transactions.stream()
     .map(Transaction::getAmount)
     .min(Comparator.naturalOrder())
-    .orElseGet(() -> new BigDecimal(0));
+    .orElseGet(() -> new Amount(0));
   }
 
   static Long computeCount(Collection<Transaction> transactions) {

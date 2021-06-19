@@ -25,10 +25,10 @@ public class StatisticsController {
     GetStatisticsResponse response = getStatistics.execute(new GetStatisticsRequest());
 
     return new GetStatisticsResponseDTO(
-      response.getStatistics().getSum(),
-      response.getStatistics().getAverage(),
-      response.getStatistics().getMaximum(),
-      response.getStatistics().getMinimum(),
+      response.getStatistics().getSum().toString(),
+      response.getStatistics().getAverage().toString(),
+      response.getStatistics().getMaximum().toString(),
+      response.getStatistics().getMinimum().toString(),
       response.getStatistics().getCount()
     );
   }

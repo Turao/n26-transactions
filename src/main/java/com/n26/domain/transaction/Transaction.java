@@ -6,12 +6,12 @@ import java.util.UUID;
 
 public class Transaction {
   UUID transactionId;
-  BigDecimal amount;
+  Amount amount;
   OffsetDateTime timestamp;
 
   public Transaction(final BigDecimal amount, final OffsetDateTime timestamp) {
     this.transactionId = UUID.randomUUID();    
-    this.amount = amount;
+    this.amount = new Amount(amount);
 
     if (timestamp.isAfter(OffsetDateTime.now())) {
       throw new IllegalArgumentException("Transaction date is in the future");
@@ -25,7 +25,7 @@ public class Transaction {
     return transactionId;
   }
 
-  public BigDecimal getAmount() {
+  public Amount getAmount() {
     return amount;
   }
 

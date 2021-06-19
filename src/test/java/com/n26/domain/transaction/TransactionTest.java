@@ -19,7 +19,7 @@ public class TransactionTest {
     );
 
     assertThat(transaction.transactionId).isNotNull();
-    assertThat(transaction.amount).isEqualTo(amount);
+    assertThat(transaction.amount).isEqualTo(new Amount(amount));
     assertThat(transaction.timestamp).isEqualTo(timestamp);
   }
 

@@ -1,7 +1,12 @@
 package com.n26.integration.web.transaction;
 
+import java.io.IOException;
+import java.time.format.DateTimeParseException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.n26.usecases.inserttransaction.InsertTransaction;
 import com.n26.usecases.inserttransaction.InsertTransactionRequest;
 import com.n26.usecases.inserttransaction.MoreThanAMinuteOldException;
@@ -11,6 +16,7 @@ import com.n26.usecases.removealltransactions.RemoveAllTransactionsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -53,6 +59,19 @@ public class TransactionController {
     reason = "Fields are not parsable or Transaction date is in the future")
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public void onMethodArgumentNotValidException() {}
+
+  @ExceptionHandler
+  public void onException(final HttpMessageConversionException exception, HttpServletResponse response) throws IOException {
+    Throwable cause = exception.getCause();
+    if (cause instanceof InvalidFormatException || cause instanceof DateTimeParseException) {
+      // ! if the request body JSON IS parseable (i.e. is a valid JSON), but not deserializable (e.g. invalid date format)
+      // ! @Valid annotation will throw and return BAD_REQUEST
+      // ! unless we implement this workaround
+      response.sendError(HttpStatus.UNPROCESSABLE_ENTITY.value(), exception.getMessage());
+    } else {
+      response.sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+    }
+  }
 
   @DeleteMapping
   @ResponseStatus(value = HttpStatus.NO_CONTENT)

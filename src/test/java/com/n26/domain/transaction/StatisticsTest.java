@@ -18,8 +18,8 @@ public class StatisticsTest {
 
   @Test
   public void givenNoTransactions_whenComputingSum_ShouldBeZero() {
-    BigDecimal sum = Statistics.computeSum(new ArrayList<Transaction>());
-    assertThat(sum).isZero();
+    Amount sum = Statistics.computeSum(new ArrayList<Transaction>());
+    assertThat(sum).isEqualTo(new Amount(0));
   }
 
   @Test
@@ -27,9 +27,9 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal sum = Statistics.computeSum(transactions);
+    Amount sum = Statistics.computeSum(transactions);
 
-    assertThat(sum).isEqualTo(new BigDecimal(10));
+    assertThat(sum).isEqualTo(new Amount(10));
   }
 
   @Test
@@ -38,9 +38,9 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal sum = Statistics.computeSum(transactions);
+    Amount sum = Statistics.computeSum(transactions);
 
-    assertThat(sum).isEqualTo(new BigDecimal(30));
+    assertThat(sum).isEqualTo(new Amount(30));
   }
 
 
@@ -55,9 +55,9 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal average = Statistics.computeAverage(transactions);
+    Amount average = Statistics.computeAverage(transactions);
 
-    assertThat(average).isEqualTo(new BigDecimal(10));
+    assertThat(average).isEqualTo(new Amount(10));
   }
 
   @Test
@@ -66,16 +66,16 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal average = Statistics.computeAverage(transactions);
+    Amount average = Statistics.computeAverage(transactions);
 
-    assertThat(average).isEqualTo(new BigDecimal(15));
+    assertThat(average).isEqualTo(new Amount(15));
   }
 
 
   @Test
   public void givenNoTransactions_whenComputingMaximum_ShouldBeZero() {
-    BigDecimal maximum = Statistics.computeMaximum(new ArrayList<Transaction>());
-    assertThat(maximum).isZero();
+    Amount maximum = Statistics.computeMaximum(new ArrayList<Transaction>());
+    assertThat(maximum).isEqualTo(new Amount(0));
   }
 
   @Test
@@ -83,9 +83,9 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal maximum = Statistics.computeMaximum(transactions);
+    Amount maximum = Statistics.computeMaximum(transactions);
 
-    assertThat(maximum).isEqualTo(new BigDecimal(10));
+    assertThat(maximum).isEqualTo(new Amount(10));
   }
 
   @Test
@@ -94,16 +94,16 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal maximum = Statistics.computeMaximum(transactions);
+    Amount maximum = Statistics.computeMaximum(transactions);
 
-    assertThat(maximum).isEqualTo(new BigDecimal(20));
+    assertThat(maximum).isEqualTo(new Amount(20));
   }
 
 
   @Test
   public void givenNoTransactions_whenComputingMinimum_ShouldBeZero() {
-    BigDecimal minimum = Statistics.computeMinimum(new ArrayList<Transaction>());
-    assertThat(minimum).isZero();
+    Amount minimum = Statistics.computeMinimum(new ArrayList<Transaction>());
+    assertThat(minimum).isEqualTo(new Amount(0));
   }
 
   @Test
@@ -111,9 +111,9 @@ public class StatisticsTest {
     Collection<Transaction> transactions = new ArrayList<>();
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
 
-    BigDecimal minimum = Statistics.computeMinimum(transactions);
+    Amount minimum = Statistics.computeMinimum(transactions);
 
-    assertThat(minimum).isEqualTo(new BigDecimal(10));
+    assertThat(minimum).isEqualTo(new Amount(10));
   }
 
   @Test
@@ -122,8 +122,8 @@ public class StatisticsTest {
     transactions.add(new Transaction(new BigDecimal(10), OffsetDateTime.now()));
     transactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
 
-    BigDecimal minimum = Statistics.computeMinimum(transactions);
+    Amount minimum = Statistics.computeMinimum(transactions);
 
-    assertThat(minimum).isEqualTo(new BigDecimal(10));
+    assertThat(minimum).isEqualTo(new Amount(10));
   }
 }
