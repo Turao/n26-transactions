@@ -3,13 +3,14 @@ package com.n26.domain.transaction;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 public class TransactionTest {
   @Test
-  public void canCreate() {
+  public void givenTransactionData_whenCreating_shouldCreate() {
     BigDecimal amount = new BigDecimal("12.3343");
     OffsetDateTime timestamp = OffsetDateTime.now();
 
@@ -21,6 +22,15 @@ public class TransactionTest {
     assertThat(transaction.transactionId).isNotNull();
     assertThat(transaction.amount).isEqualTo(new Amount(amount));
     assertThat(transaction.timestamp).isEqualTo(timestamp);
+  }
+
+  @Test
+  public void givenTransactionInTheFuture_whenCreating_shouldThrow() {
+    BigDecimal amount = new BigDecimal("12.3343");
+    OffsetDateTime timestamp = OffsetDateTime.now().plusSeconds(1);
+
+    assertThatThrownBy(() -> new Transaction(amount, timestamp))
+      .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
