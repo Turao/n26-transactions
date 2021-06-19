@@ -24,7 +24,7 @@ public class InMemoryTransactionRepository
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
   final ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<>();
-  AtomicReference<Statistics> statistics = new AtomicReference<>(Statistics.from(new ArrayList<>()));
+  Statistics statistics = Statistics.from(new ArrayList<>());
 
   @Override
   public void insertOne(final Transaction transaction) {
@@ -65,13 +65,13 @@ public class InMemoryTransactionRepository
 
   @Override
   public Statistics getStatistics() {
-    return statistics.get();
+    return statistics;
   }
 
   @Override
   public void updateStatistics() {
     LOGGER.info("old statistics: {}", statistics);
-    statistics.set(Statistics.from(getLastMinuteTransactions()));
+    statistics = Statistics.from(getLastMinuteTransactions());
     LOGGER.info("new statistics: {}", statistics);
   }  
 }
