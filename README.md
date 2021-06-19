@@ -47,8 +47,39 @@ For reference, I have built this project using:
 
 ## Design
 
+This project follows a standard clean architecture approach, hints of Domain-Driven design, and CQRS concepts.
+Two domain entities are clearly identifiable:
+- `Transaction`, containing the `Amount` value object (since we need custom business policies for scaling and rounding of numbers), and a timestamp, identifying when the Transaction has been created (in the real world, not in the application).
+- `Statistics`, containing the well-defined set of transaction statistics (`sum`, `average`, `maximum`, `minimum`, `count`). 
+
+A few events have been identified and implemented as use cases. All use cases implement either `Command` or `Query` interfaces, so as to make methods' intentions (modification/querying) a bit more explicit.
+The following use cases have been identified:
+- `Insert Transaction`: creates and inserts a new Transaction into the Transaction storage
+  - side-effects: 
+    - schedules the new transaction for expiration
+    - asks for a re-calculation of statistics
+- `Remove All Transaction`: removes all transactions from the Transaction storage
+  - side-effects:
+    - asks for a re-calculation of statistics
+- `Get Statistics`: queries the Transaction storage for most recent (less than a minute old) statistics
+- `Schedule Transaction For Expiration`: discards a transaction when it's time-to-live expires
+  - side-effects:
+    - asks for a re-calculation of statistics
+
+\* Spring's `ApplicationEvent`s would allow for inversion of control and a cleaner implementation. I've decided **not** to use events yet, so as to keep this layer as decoupled as possible from the framework. I believe the decision to use events should be taken at a later point in time.
+
+Use of Spring, Lombok, or any other framework or library is strongly discouraged within `domain` and `usecases` boundaries/directories.
+
+Framework-specifics and libraries do appear at infrastructure level, though. At this level, three integration adapters are implemented:
+- `TransactionController`: handles web requests (and exceptions) for all `/transactions` endpoints
+- `StatisticsController`: handles web requests (and exceptions) for all `/statistics` endpoints 
+- `InMemoryTransactionController`: stores all Transactions in-memory
+
+Storage of Transactions has been implemented using a `ConcurrentHashMap` so as to allow O(1) time complexity for insertions (soft requirement). Lookups and deletions also have O(1) time complexity, allowing for an expiration mechanism to discard any unecessary Transactions as soon as they get over the 60 second mark (project requirement). Therefore, the storage's space complexity can be estimated to be linear to all relevant transactions at a given point in time - i.e. O(N).
+
+
+
 ## Requirements
-### Hard
 - [x] Application runs in Maven
   - [ ] `mvn clean install` and `mvn clean integration-test` complete succesfully
     - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Nothing has been changed
@@ -63,25 +94,3 @@ For reference, I have built this project using:
   - > Lots of them!
 - [x] No changes have been done to integration tests @ `src/it`
 - [ ] Solution is production-ready
-
-### Soft
-
-#### Insert Transactions
-
-Transactions are stored in a `ConcurrentHashMap`.
-An expiration mechanism has been build and is called after each insertion.
-Once transactions are no longer useful (i.e. older than 1 minute) they get discarded from the storage.
-
-- [x] Time Complexity is O(1)
-
-#### Get Statistics
-
-All relevant transactions are queried using the `TransactionRepository` abstraction.
-`Statistics` are computed on-demand (but can be hooked to an "eventing" system at a later point in time, so as to provide instant results).
-
-- [ ] Time Complexity is O(1)
-
-#### Remove Transactions
-Transactions are stored in a `ConcurrentHashMap`.
-
-- [x] Time Complexity is O(1)
