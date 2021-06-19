@@ -48,11 +48,13 @@ For reference, I have built this project using:
 ## Design
 
 This project follows a standard clean architecture approach, hints of Domain-Driven design, and CQRS concepts.
+
 Two domain entities are clearly identifiable:
 - `Transaction`, containing the `Amount` value object (since we need custom business policies for scaling and rounding of numbers), and a timestamp, identifying when the Transaction has been created (in the real world, not in the application).
 - `Statistics`, containing the well-defined set of transaction statistics (`sum`, `average`, `maximum`, `minimum`, `count`). 
 
 A few events have been identified and implemented as use cases. All use cases implement either `Command` or `Query` interfaces, so as to make methods' intentions (modification/querying) a bit more explicit.
+
 The following use cases have been identified:
 - `Insert Transaction`: creates and inserts a new Transaction into the Transaction storage
   - side-effects: 
@@ -68,7 +70,7 @@ The following use cases have been identified:
 
 \* Spring's `ApplicationEvent`s would allow for inversion of control and a cleaner implementation. I've decided **not** to use events yet, so as to keep this layer as decoupled as possible from the framework. I believe the decision to use events should be taken at a later point in time.
 
-Use of Spring, Lombok, or any other framework or library is strongly discouraged within `domain` and `usecases` boundaries/directories.
+Use of Spring, Lombok, or any other framework or library is **strongly** discouraged within `domain` and `usecases` boundaries/directories.
 
 Framework-specifics and libraries do appear at infrastructure level, though. At this level, three integration adapters are implemented:
 - `TransactionController`: handles web requests (and exceptions) for all `/transactions` endpoints
