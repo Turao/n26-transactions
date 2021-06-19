@@ -8,6 +8,9 @@ import com.n26.domain.transaction.Transaction;
 import com.n26.domain.transaction.TransactionRepository;
 import com.n26.usecases.scheduletransactionforexpiration.ScheduleTransactionForExpiration;
 import com.n26.usecases.scheduletransactionforexpiration.ScheduleTransactionForExpirationRequest;
+import com.n26.usecases.updatestatistics.StatisticsUpdater;
+import com.n26.usecases.updatestatistics.UpdateStatistics;
+import com.n26.usecases.updatestatistics.UpdateStatisticsRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +23,16 @@ public class InsertTransaction implements Command<InsertTransactionRequest> {
 
   private final TransactionRepository transactionRepository;
   private final ScheduleTransactionForExpiration scheduleTransactionForExpiration;
+  private final UpdateStatistics updateStatistics;
 
   public InsertTransaction(
     final TransactionRepository transactionRepository,
-    final ScheduleTransactionForExpiration scheduleTransactionForExpiration) {
+    final ScheduleTransactionForExpiration scheduleTransactionForExpiration,
+    final UpdateStatistics updateStatistics
+  ) {
     this.transactionRepository = transactionRepository;
     this.scheduleTransactionForExpiration = scheduleTransactionForExpiration;
+    this.updateStatistics = updateStatistics;
   }
 
   @Override
@@ -51,6 +58,8 @@ public class InsertTransaction implements Command<InsertTransactionRequest> {
   }
   
   private void afterInsertion(Transaction transaction) {
+    updateStatistics.execute(new UpdateStatisticsRequest());
+
     Duration timeRemainingBeforeExpiration = Duration.between(
       OffsetDateTime.now(),
       transaction.getTimestamp().plusMinutes(1)

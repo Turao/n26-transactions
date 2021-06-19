@@ -3,7 +3,7 @@ package com.n26.domain.transaction;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-class Amount implements Comparable<Amount> {
+public class Amount implements Comparable<Amount> {
 
   public static final int SCALE = 2;
   public static final RoundingMode ROUNDING_MODE = RoundingMode.HALF_UP;

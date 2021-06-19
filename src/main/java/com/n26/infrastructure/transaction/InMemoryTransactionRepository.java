@@ -1,12 +1,14 @@
 package com.n26.infrastructure.transaction;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
+import com.n26.domain.transaction.Statistics;
 import com.n26.domain.transaction.Transaction;
 import com.n26.domain.transaction.TransactionRepository;
 
@@ -15,11 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class InMemoryTransactionRepository implements TransactionRepository {
+public class InMemoryTransactionRepository
+  implements TransactionRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
   final ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<>();
+  volatile Statistics statistics = Statistics.from(new ArrayList<>());
 
   @Override
   public void insertOne(final Transaction transaction) {
@@ -56,5 +60,17 @@ public class InMemoryTransactionRepository implements TransactionRepository {
   public void removeOne(UUID transactionId) {
     LOGGER.debug("Removing Transaction: {}", transactionId);
     transactions.remove(transactionId);
+  }
+
+  @Override
+  synchronized public Statistics getStatistics() {
+    return statistics;
+  }
+
+  @Override
+  synchronized public void updateStatistics() {
+    LOGGER.info("old statistics: {}", statistics);
+    statistics = Statistics.from(getLastMinuteTransactions());
+    LOGGER.info("new statistics: {}", statistics);
   }  
 }

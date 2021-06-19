@@ -8,4 +8,7 @@ public interface TransactionRepository {
   Collection<Transaction> getLastMinuteTransactions();
   void removeAll();
   void removeOne(UUID transactionId);
+
+  Statistics getStatistics();
+  void updateStatistics();
 }

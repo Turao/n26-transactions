@@ -32,8 +32,8 @@ public class GetStatisticsTest {
     lastMinuteTransactions.add(new Transaction(new BigDecimal(20), OffsetDateTime.now()));
     lastMinuteTransactions.add(new Transaction(new BigDecimal(30), OffsetDateTime.now()));
 
-    given(transactionRepository.getLastMinuteTransactions())
-      .willReturn(lastMinuteTransactions);
+    given(transactionRepository.getStatistics())
+      .willReturn(Statistics.from(lastMinuteTransactions));
     
     GetStatisticsResponse response = getStatistics.execute(request);
 

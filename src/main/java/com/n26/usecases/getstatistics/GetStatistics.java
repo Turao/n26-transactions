@@ -1,10 +1,7 @@
 package com.n26.usecases.getstatistics;
 
-import java.util.Collection;
-
 import com.n26.core.Query;
 import com.n26.domain.transaction.Statistics;
-import com.n26.domain.transaction.Transaction;
 import com.n26.domain.transaction.TransactionRepository;
 
 import org.slf4j.Logger;
@@ -25,13 +22,7 @@ public class GetStatistics implements Query<GetStatisticsRequest, GetStatisticsR
   @Override
   public GetStatisticsResponse execute(GetStatisticsRequest request) {
     LOGGER.info("Getting statistics...");
-
-    LOGGER.info("Retrieving last minute transactions...");
-    Collection<Transaction> transactions = transactionRepository.getLastMinuteTransactions();
-
-    LOGGER.info("Compiling statistics...");
-    Statistics statistics = Statistics.from(transactions);
-
+    Statistics statistics = transactionRepository.getStatistics();
     return new GetStatisticsResponse(statistics);
   }  
 }

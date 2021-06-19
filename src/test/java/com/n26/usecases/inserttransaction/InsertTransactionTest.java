@@ -2,6 +2,7 @@ package com.n26.usecases.inserttransaction;
 
 import com.n26.domain.transaction.TransactionRepository;
 import com.n26.usecases.scheduletransactionforexpiration.ScheduleTransactionForExpiration;
+import com.n26.usecases.updatestatistics.UpdateStatistics;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,7 @@ public class InsertTransactionTest {
   @InjectMocks private InsertTransaction insertTransaction;
   @Mock private TransactionRepository transactionRepository;
   @Mock private ScheduleTransactionForExpiration scheduleTransactionForExpiration;
+  @Mock private UpdateStatistics updateStatistics;
 
   @Test
   public void givenAnInsertTransactionRequest_whenProcessing_shouldInsertToDatabase() {
@@ -48,6 +50,20 @@ public class InsertTransactionTest {
     insertTransaction.execute(request);
 
     then(scheduleTransactionForExpiration)
+      .should(times(1))
+      .execute(any());
+  }
+
+  @Test
+  public void givenAnInsertTransactionRequest_whenProcessing_shouldUpdateStatistics() {
+    InsertTransactionRequest request = new InsertTransactionRequest(
+      new BigDecimal("12.345"), 
+      OffsetDateTime.now()
+    );
+
+    insertTransaction.execute(request);
+
+    then(updateStatistics)
       .should(times(1))
       .execute(any());
   }
