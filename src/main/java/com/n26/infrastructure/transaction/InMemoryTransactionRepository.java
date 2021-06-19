@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import com.n26.domain.transaction.Statistics;
@@ -23,7 +24,7 @@ public class InMemoryTransactionRepository
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
   final ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<>();
-  volatile Statistics statistics = Statistics.from(new ArrayList<>());
+  AtomicReference<Statistics> statistics = new AtomicReference<>(Statistics.from(new ArrayList<>()));
 
   @Override
   public void insertOne(final Transaction transaction) {
@@ -63,14 +64,14 @@ public class InMemoryTransactionRepository
   }
 
   @Override
-  synchronized public Statistics getStatistics() {
-    return statistics;
+  public Statistics getStatistics() {
+    return statistics.get();
   }
 
   @Override
-  synchronized public void updateStatistics() {
+  public void updateStatistics() {
     LOGGER.info("old statistics: {}", statistics);
-    statistics = Statistics.from(getLastMinuteTransactions());
+    statistics.set(Statistics.from(getLastMinuteTransactions()));
     LOGGER.info("new statistics: {}", statistics);
   }  
 }
