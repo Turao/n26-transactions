@@ -5,10 +5,8 @@ import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.Comparator;
 
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode
 public class Statistics {
+
   final BigDecimal sum;
   final BigDecimal average;
   final BigDecimal minimum;
@@ -92,5 +90,54 @@ public class Statistics {
 
   public Long getCount() {
     return count;
+  }
+
+  @Override // auto-generated
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((average == null) ? 0 : average.hashCode());
+    result = prime * result + ((count == null) ? 0 : count.hashCode());
+    result = prime * result + ((maximum == null) ? 0 : maximum.hashCode());
+    result = prime * result + ((minimum == null) ? 0 : minimum.hashCode());
+    result = prime * result + ((sum == null) ? 0 : sum.hashCode());
+    return result;
+  }
+
+  @Override // auto-generated
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Statistics other = (Statistics) obj;
+    if (average == null) {
+      if (other.average != null)
+        return false;
+    } else if (!average.equals(other.average))
+      return false;
+    if (count == null) {
+      if (other.count != null)
+        return false;
+    } else if (!count.equals(other.count))
+      return false;
+    if (maximum == null) {
+      if (other.maximum != null)
+        return false;
+    } else if (!maximum.equals(other.maximum))
+      return false;
+    if (minimum == null) {
+      if (other.minimum != null)
+        return false;
+    } else if (!minimum.equals(other.minimum))
+      return false;
+    if (sum == null) {
+      if (other.sum != null)
+        return false;
+    } else if (!sum.equals(other.sum))
+      return false;
+    return true;
   }
 }
