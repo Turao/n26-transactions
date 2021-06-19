@@ -26,18 +26,15 @@ An expiration mechanism has been build and is called after each insertion.
 Once transactions are no longer useful (i.e. older than 1 minute) they get discarded from the storage.
 
 - [x] Time Complexity is O(1)
-- [ ] Space Complexity is O(1)
 
 #### Get Statistics
 
 All relevant transactions are queried using the `TransactionRepository` abstraction.
 `Statistics` are computed on-demand (but can be hooked to an "eventing" system at a later point in time, so as to provide instant results).
 
-- [x] Time Complexity is O(1)
-- [ ] Space Complexity is O(1)
+- [ ] Time Complexity is O(1)
 
 #### Remove Transactions
 Transactions are stored in a `ConcurrentHashMap`.
 
 - [x] Time Complexity is O(1)
-- [ ] Space Complexity is O(1)
