@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import com.n26.domain.transaction.Statistics;
@@ -65,13 +64,13 @@ public class InMemoryTransactionRepository
 
   @Override
   public Statistics getStatistics() {
+    LOGGER.debug("Retrieving statistics...");
     return statistics;
   }
 
   @Override
   public void updateStatistics() {
-    LOGGER.info("old statistics: {}", statistics);
+    LOGGER.debug("Updating statistics...");
     statistics = Statistics.from(getLastMinuteTransactions());
-    LOGGER.info("new statistics: {}", statistics);
   }  
 }
