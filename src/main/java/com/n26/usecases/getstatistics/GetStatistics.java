@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetStatistics implements Query<GetStatisticsRequest, GetStatisticsResponse> {
 
-  private final static Logger LOGGER = LoggerFactory.getLogger(GetStatistics.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(GetStatistics.class);
 
   private final TransactionRepository transactionRepository;
 

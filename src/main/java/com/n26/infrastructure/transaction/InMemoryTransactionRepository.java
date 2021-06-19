@@ -19,7 +19,7 @@ public class InMemoryTransactionRepository implements TransactionRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(InMemoryTransactionRepository.class);
 
-  final ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<UUID, Transaction>();
+  final ConcurrentMap<UUID, Transaction> transactions = new ConcurrentHashMap<>();
 
   @Override
   public void insertOne(final Transaction transaction) {

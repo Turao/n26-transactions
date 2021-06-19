@@ -17,7 +17,8 @@ public class AmountTest {
 
   @Test
   public void givenANegativeBigDecimal_whenCreating_shouldThrow() {
-    assertThatThrownBy(() -> new Amount(new BigDecimal(-1)))
+    BigDecimal negativeValue = new BigDecimal(-1);
+    assertThatThrownBy(() -> new Amount(negativeValue))
       .isInstanceOf(IllegalArgumentException.class);
   }
 

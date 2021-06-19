@@ -11,8 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StatisticsTest {
   @Test
-  public void givenNoTransactions_whenCreating_ShouldNotThrowOrAnythingWeird() {
-    Statistics.from(new ArrayList<Transaction>());
+  public void givenNoTransactions_whenCreating_ShouldCreateWithZeroedOutValues() {
+    Statistics statistics = Statistics.from(new ArrayList<Transaction>());
+    
+    assertThat(statistics.sum).isZero();
+    assertThat(statistics.average).isZero();
+    assertThat(statistics.maximum).isZero();
+    assertThat(statistics.minimum).isZero();
+    assertThat(statistics.count).isZero();
   }
 
 
