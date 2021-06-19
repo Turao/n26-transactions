@@ -1,5 +1,6 @@
 package com.n26.integration.web.transaction;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
@@ -7,6 +8,7 @@ import java.time.OffsetDateTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.n26.usecases.inserttransaction.InsertTransaction;
+import com.n26.usecases.inserttransaction.MoreThanAMinuteOldException;
 import com.n26.usecases.removealltransactions.RemoveAllTransactions;
 
 import org.junit.Test;
@@ -19,6 +21,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.mockito.BDDMockito.willThrow;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(TransactionController.class)
@@ -42,7 +46,43 @@ public class TransactionControllerTest {
       .content(objectMapper.writeValueAsString(body));
 
     mvc.perform(request)
-      .andExpect(status().isOk());
+      .andExpect(status().isCreated());
+  }
+
+  @Test
+  public void onInsertTransactionRequestWithTransactionInTheFuture_shouldReturnUnprocessable() throws Exception {
+    InsertTransactionRequestDTO body = new InsertTransactionRequestDTO(
+      new BigDecimal("123.123"),
+      OffsetDateTime.now().plusSeconds(1)
+    );
+
+    MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+      .post("/transactions")
+      .contentType(MediaType.APPLICATION_JSON_VALUE)
+      .content(objectMapper.writeValueAsString(body));
+
+    mvc.perform(request)
+      .andExpect(status().isUnprocessableEntity());
+  }
+
+  @Test
+  public void onInsertTransactionRequestWithTransactionOlderThanAMinute_shouldReturnNoContent() throws Exception {
+    InsertTransactionRequestDTO body = new InsertTransactionRequestDTO(
+      new BigDecimal("123.123"),
+      OffsetDateTime.now().minusMinutes(2)
+    );
+
+    MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+    .post("/transactions")
+    .contentType(MediaType.APPLICATION_JSON_VALUE)
+    .content(objectMapper.writeValueAsString(body));
+    
+    willThrow(MoreThanAMinuteOldException.class)
+      .given(insertTransaction)
+      .execute(any());
+    
+    mvc.perform(request)
+      .andExpect(status().isNoContent());
   }
 
   @Test
