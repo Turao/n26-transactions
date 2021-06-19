@@ -18,14 +18,4 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    public TaskExecutor taskExecutor() {
-        return new ThreadPoolTaskExecutor();
-    }
-
-    @Bean
-    public ScheduledExecutorService scheduledExecutor() {
-        return new ScheduledThreadPoolExecutor(1);
-    }
-
 }
