@@ -11,10 +11,14 @@ class Amount implements Comparable<Amount> {
   BigDecimal value;
   
   public Amount(final BigDecimal value) {
+    if (value.longValue() < 0) throw new IllegalArgumentException("Amount value must be positive");
+
     this.value = value.setScale(SCALE, ROUNDING_MODE);
   }
 
   public Amount(final int value) {
+    if (value < 0) throw new IllegalArgumentException("Amount value must be positive");
+
     this.value = new BigDecimal(value).setScale(SCALE, ROUNDING_MODE);
   }
 

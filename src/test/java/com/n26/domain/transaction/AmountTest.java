@@ -3,20 +3,34 @@ package com.n26.domain.transaction;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.math.BigDecimal;
 
 public class AmountTest {
+  
   @Test
-  public void canCreateWithBigDecimal() {
+  public void givenABigDecimal_whenCreating_shouldCreate() {
     Amount amount = new Amount(new BigDecimal(1));
     assertThat(amount.value).isEqualTo(new BigDecimal("1.00"));
   }
 
   @Test
-  public void canCreateWithInt() {
+  public void givenANegativeBigDecimal_whenCreating_shouldThrow() {
+    assertThatThrownBy(() -> new Amount(new BigDecimal(-1)))
+      .isInstanceOf(IllegalArgumentException.class);
+  }
+
+  @Test
+  public void givenAnInteger_whenCreating_shouldCreate() {
     Amount amount = new Amount(1);
     assertThat(amount.value).isEqualTo(new BigDecimal("1.00"));
+  }
+
+  @Test
+  public void givenANegativeInteger_whenCreating_shouldThrow() {
+    assertThatThrownBy(() -> new Amount(-1))
+      .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
