@@ -1,5 +1,8 @@
 package com.n26;
 
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +20,12 @@ public class Application {
 
     @Bean
     public TaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        return executor;
+        return new ThreadPoolTaskExecutor();
+    }
+
+    @Bean
+    public ScheduledExecutorService scheduledExecutor() {
+        return new ScheduledThreadPoolExecutor(1);
     }
 
 }

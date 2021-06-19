@@ -1,6 +1,5 @@
 package com.n26.usecases.inserttransaction;
 
-import java.time.Duration;
 import java.time.OffsetDateTime;
 
 import com.n26.core.Command;
@@ -8,7 +7,6 @@ import com.n26.domain.transaction.Transaction;
 import com.n26.domain.transaction.TransactionRepository;
 import com.n26.usecases.scheduletransactionforexpiration.ScheduleTransactionForExpiration;
 import com.n26.usecases.scheduletransactionforexpiration.ScheduleTransactionForExpirationRequest;
-import com.n26.usecases.updatestatistics.StatisticsUpdater;
 import com.n26.usecases.updatestatistics.UpdateStatistics;
 import com.n26.usecases.updatestatistics.UpdateStatisticsRequest;
 
@@ -60,15 +58,10 @@ public class InsertTransaction implements Command<InsertTransactionRequest> {
   private void afterInsertion(Transaction transaction) {
     updateStatistics.execute(new UpdateStatisticsRequest());
 
-    Duration timeRemainingBeforeExpiration = Duration.between(
-      OffsetDateTime.now(),
-      transaction.getTimestamp().plusMinutes(1)
-    );
-
     scheduleTransactionForExpiration.execute(
       new ScheduleTransactionForExpirationRequest(
         transaction.getTransactionId(),
-        timeRemainingBeforeExpiration.toMillis()
+        transaction.getTimestamp()
       )
     );
   }

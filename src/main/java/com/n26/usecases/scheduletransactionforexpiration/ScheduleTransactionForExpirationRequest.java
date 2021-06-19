@@ -1,24 +1,25 @@
 package com.n26.usecases.scheduletransactionforexpiration;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class ScheduleTransactionForExpirationRequest {
   private final UUID transactionId;
-  private final long timeToLiveMilliseconds;
+  private final OffsetDateTime timestamp;
 
   public ScheduleTransactionForExpirationRequest(
     final UUID transactionId,
-    final long timeToLiveMilliseconds
+    final OffsetDateTime timestamp
   ) {
     this.transactionId = transactionId;
-    this.timeToLiveMilliseconds = timeToLiveMilliseconds;
+    this.timestamp = timestamp;
   }
 
   public UUID getTransactionId() {
     return transactionId;
   }
 
-  public long getTimeToLiveMilliseconds() {
-    return timeToLiveMilliseconds;
+  public OffsetDateTime getTimestamp() {
+    return timestamp;
   }
 }
