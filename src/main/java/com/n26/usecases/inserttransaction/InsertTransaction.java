@@ -1,7 +1,7 @@
 package com.n26.usecases.inserttransaction;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.concurrent.TimeUnit;
 
 import com.n26.core.Command;
 import com.n26.domain.transaction.Transaction;
@@ -40,15 +40,28 @@ public class InsertTransaction implements Command<InsertTransactionRequest> {
 
     if (transaction.isOlderThan(OffsetDateTime.now().minusMinutes(1))) {
       LOGGER.info("Transaction is older than 1 minute");
+      throw new MoreThanAMinuteOldException();
     }
-      
+
     LOGGER.debug("Inserting Transaction...");
     transactionRepository.insertOne(transaction);
     LOGGER.debug("Transaction inserted");
 
     // side-effects (can be replaced for events at a later point in time)
+    afterInsertion(transaction);
+  }
+  
+  private void afterInsertion(Transaction transaction) {
+    Duration timeRemainingBeforeExpiration = Duration.between(
+      OffsetDateTime.now(),
+      transaction.getTimestamp().plusMinutes(1)
+    );
+
     scheduleTransactionForExpiration.execute(
-      new ScheduleTransactionForExpirationRequest(transaction.getTransactionId(), TimeUnit.MINUTES.toMillis(1))
+      new ScheduleTransactionForExpirationRequest(
+        transaction.getTransactionId(),
+        timeRemainingBeforeExpiration.toMillis()
+      )
     );
   }
 }
