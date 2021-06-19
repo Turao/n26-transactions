@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  dev:
+    image: n26-challenge-arthur:dev
+    build:
+      context: .
+      target: build
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/n26-challenge/
+
+  prod:
+    image: n26-challenge-arthur:prod
+    ports:
+      - "8080:8080"
