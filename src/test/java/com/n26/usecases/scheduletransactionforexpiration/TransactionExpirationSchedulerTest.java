@@ -10,7 +10,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.n26.usecases.expiretransaction.ExpireTransaction;
-import com.n26.usecases.expiretransaction.ExpireTransactionRequest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
