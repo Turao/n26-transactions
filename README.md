@@ -107,3 +107,4 @@ Storage of Transactions has been implemented using a `ConcurrentHashMap` so as t
   - > Lots of them!
 - [x] No changes have been done to integration tests @ `src/it`
 - [ ] Solution is production-ready
+  - > In my opinion, no solution will be "production-ready" within the given time frame (3 days). Production-ready applications would require tighter security at the outer layers (e.g. TransactionController), better observability (e.g. logging, monitoring, tracing), and better CI - I have configured a Docker GitHub action to make sure things **do** build successfully, yet we would still require things like code quality information, coverage data, and security reports.
