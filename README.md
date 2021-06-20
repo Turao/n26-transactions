@@ -102,7 +102,7 @@ Storage of Transactions has been implemented using a `ConcurrentHashMap` so as t
   - > See`InMemoryTransactionRepository` class
 - [x] Service does **not** store all transactions in memory all the time
 - [x] Irrelevant transactions are discarded
-  - > See `ScheduleTransactionForExpiration` use case
+  - > See `ScheduleTransactionForExpiration` and `Expire a Transaction` use cases
 - [x] Project has unit tests
   - > Lots of them!
 - [x] No changes have been done to integration tests @ `src/it`
