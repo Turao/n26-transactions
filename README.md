@@ -1,10 +1,10 @@
 # N26 Coding Challenge
 
 ## Table of Contents
-1. [Description](#Description)
-2. [Build, Test, and Run](#Build-Test-and-Run)
-3. [Design](#Design)
-4. [Requirements](#Requirements)
+1. [Description](#-Description)
+2. [Build, Test, and Run](#-Build-Test-and-Run)
+3. [Design](#-Design)
+4. [Requirements](#-Requirements)
 
 ## 💳 Description
 
