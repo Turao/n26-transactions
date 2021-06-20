@@ -1,6 +1,6 @@
-# n26-coding-challenge
+# N26 Coding Challenge
 
-## Description
+## 💳 Description
 
 The **N26 Coding Challenge** application is a Spring-Boot application that provides a RESTful API for computing real-time transaction statistics.
 In this challenge, ONLY recent transactions (less than a minute old) MUST be considered. All others MUST be discarded.
@@ -11,7 +11,7 @@ The application provides the following endpoints:
 - `DELETE /transactions`: Discards all existing Transactions.
 - `GET /statistics`: Returns Statistics from all recent Transactions (less than a minute old). 
 
-## Building, Test, and Run
+## 💻 Build, Test, and Run
 
 #### Docker (recommended)
 
@@ -52,7 +52,9 @@ Both can be configured using environment variables - or directly, in the `applic
 Environment variables supported:
 - `EXECUTORS_TASK_CORE_POOL_SIZE`: The ThreadPoolExecutor's core pool size. Default is 1.
 - `EXECUTORS_SCHEDULER_CORE_POOL_SIZE`: The ScheduledExecutorService's core pool size. Default is 1.
-## Design
+
+
+## :pencil: Design
 
 This project follows a standard clean architecture approach, hints of Domain-Driven design, and CQRS concepts.
 
@@ -92,7 +94,7 @@ Storage of Transactions has been implemented using a `ConcurrentHashMap` so as t
 
 
 
-## Requirements
+## 📜 Requirements
 - [x] Application runs in Maven
   - [x] `mvn clean install` and `mvn clean integration-test` complete succesfully
     - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Nothing has been changed
