@@ -1,4 +1,4 @@
-package com.n26.integration.web.transaction;
+package com.n26.infrastructure.integration.web.transaction;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

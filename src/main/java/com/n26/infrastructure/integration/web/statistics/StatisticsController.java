@@ -1,4 +1,4 @@
-package com.n26.integration.web.statistics;
+package com.n26.infrastructure.integration.web.statistics;
 
 import com.n26.usecases.getstatistics.GetStatistics;
 import com.n26.usecases.getstatistics.GetStatisticsRequest;

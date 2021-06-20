@@ -1,4 +1,4 @@
-package com.n26.integration.web.transaction;
+package com.n26.infrastructure.integration.web.transaction;
 
 import java.io.IOException;
 import java.time.format.DateTimeParseException;

@@ -1,4 +1,4 @@
-package com.n26.integration.web.statistics;
+package com.n26.infrastructure.integration.web.statistics;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

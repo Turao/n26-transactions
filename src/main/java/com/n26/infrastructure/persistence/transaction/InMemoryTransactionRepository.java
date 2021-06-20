@@ -1,4 +1,4 @@
-package com.n26.infrastructure.transaction;
+package com.n26.infrastructure.persistence.transaction;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
