@@ -3,3 +3,7 @@ executors:
     corePoolSize: ${EXECUTORS_TASK_CORE_POOL_SIZE:1}
   scheduler:
     corePoolSize: ${EXECUTORS_SCHEDULER_CORE_POOL_SIZE:1}
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true

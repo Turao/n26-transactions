@@ -61,6 +61,10 @@ Environment variables supported are:
 
 **Code Coverage** reports are automatically generated and published under `target/site/jacoco/index.html`.
 
+API documentation is automatically generated (following the OpenAPI 3 spec) and published. **Swagger UI** is also provided so as to facilitate manual testing.
+- API documentation endpoint: `Go to /v3/api-docs/` 
+- Swagger UI endpoint: `Go to /swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config`
+
 ## 📝 Design
 
 This project follows a standard clean architecture approach, with hints of Domain-Driven design, and CQRS concepts.
@@ -109,7 +113,7 @@ Finally, Statistics are stored as a single value object and are not impacted by 
 ## 📜 Requirements
 - [x] Application runs in Maven
   - [x] `mvn clean install` and `mvn clean integration-test` complete succesfully
-    - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Only minor tweaks have been made (e.g. addition of JaCoCo for coverage reports)
+    - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Only minor tweaks have been made (e.g. addition of JaCoCo for coverage reports and OpenAPI docs)
 - [x] API is thread-safe (i.e. supports concurrent requests)
   - > `TransactionRepository` stores Transaction objects in a `ConcurrentHashMap`, Statistics are immutable by nature (value objects)
 - [x] Works without a database (including in-memory databases)
