@@ -94,7 +94,7 @@ Storage of Transactions has been implemented using a `ConcurrentHashMap` so as t
 
 ## Requirements
 - [x] Application runs in Maven
-  - [ ] `mvn clean install` and `mvn clean integration-test` complete succesfully
+  - [x] `mvn clean install` and `mvn clean integration-test` complete succesfully
     - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Nothing has been changed
 - [x] API is thread-safe (i.e. supports concurrent requests)
   - > `TransactionRepository` is built around a `ConcurrentHashMap` 
