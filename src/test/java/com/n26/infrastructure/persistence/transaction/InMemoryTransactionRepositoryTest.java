@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
+import com.n26.domain.transaction.Statistics;
 import com.n26.domain.transaction.Transaction;
 
 import org.junit.Test;
@@ -98,6 +100,28 @@ public class InMemoryTransactionRepositoryTest {
   }
 
   @Test
+  public void givenSomeTransactionsExist_whenRemovingAllTransactions_shouldRemoveFromDatabase() {
+    Transaction firstTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now()
+    );
+
+    Transaction secondTransaction = new Transaction(
+      new BigDecimal("12.12345"),
+      OffsetDateTime.now()
+    );
+
+    repository.transactions.put(firstTransaction.getTransactionId(), firstTransaction);
+    repository.transactions.put(secondTransaction.getTransactionId(), secondTransaction);
+
+    assertThat(repository.transactions).hasSize(2);
+    
+    repository.removeAll();
+    
+    assertThat(repository.transactions).isEmpty();
+  }
+
+  @Test
   public void givenATransactionId_whenRemovingOneTransaction_shouldRemoveFromDatabase() {
     Transaction transaction = new Transaction(
       new BigDecimal("12.12345"),
@@ -111,5 +135,12 @@ public class InMemoryTransactionRepositoryTest {
     repository.removeOne(transaction.getTransactionId());
     
     assertThat(repository.transactions).isEmpty();
+  }
+
+  @Test
+  public void givenStatisticsExist_whenGettingStatistics_shouldReturnThem() {
+    repository.statistics  = Statistics.from(new ArrayList<>());
+    Statistics result = repository.getStatistics();
+    assertThat(result).isEqualTo(Statistics.from(new ArrayList<>()));
   }
 }
