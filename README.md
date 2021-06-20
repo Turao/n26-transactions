@@ -73,6 +73,7 @@ The following use cases have been identified:
   - side-effects:
     - asks for a re-calculation of statistics
 - `Get Statistics`: queries the Transaction storage for most recent (less than a minute old) statistics
+  - > I've decided to filter all transactions before returning the relevant ones. This makes the time complexity O(N). However, we can simply **not** do that (filter). Tests will pass and time complexity will go down to O(1). However, this will make the "60-second" constraint **very** implicit. I have decided in favor of explicitness.
 - `Schedule Transaction For Expiration`: schedules a Transaction to be expired when it reaches its "relevancy deadline" (in this case, 60 seconds after its timestamp)
 - `Expire a Transaction`: removes a transaction from the Transaction storage
   - side-effects:
