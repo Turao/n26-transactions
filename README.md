@@ -107,7 +107,7 @@ Finally, Statistics are stored as a single value object and are not impacted by 
 ## 📜 Requirements
 - [x] Application runs in Maven
   - [x] `mvn clean install` and `mvn clean integration-test` complete succesfully
-    - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Nothing has been changed
+    - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Only minor tweaks have been made (e.g. addition of JaCoCo for coverage reports)
 - [x] API is thread-safe (i.e. supports concurrent requests)
   - > `TransactionRepository` stores Transaction objects in a `ConcurrentHashMap`, Statistics are immutable by nature (value objects)
 - [x] Works without a database (including in-memory databases)
