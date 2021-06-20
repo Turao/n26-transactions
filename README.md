@@ -49,8 +49,9 @@ For reference, I have built this project using:
 - Testing the project (with locally installed dependencies): `mvn test`
 - Running the project (with locally installed dependencies): `mvn spring-boot:run`
 
+---
+#### Additional Notes
 
-##### Additional notes
 The **N26 Coding Challenge** application uses Spring's `TaskExecutor` and Java's `ScheduledExecutorService` classes so as to provide support for asynchronous methods and scheduled tasks, respectively.
 
 Both can be configured using environment variables - or directly, in the `application.yaml` file.
@@ -58,6 +59,7 @@ Environment variables supported are:
 - `EXECUTORS_TASK_CORE_POOL_SIZE`: The ThreadPoolExecutor's core pool size. Default is 1.
 - `EXECUTORS_SCHEDULER_CORE_POOL_SIZE`: The ScheduledExecutorService's core pool size. Default is 1.
 
+**Code Coverage** reports are automatically generated and published under `target/site/jacoco/index.html`.
 
 ## 📝 Design
 
