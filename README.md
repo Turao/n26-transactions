@@ -59,7 +59,7 @@ Environment variables supported are:
 - `EXECUTORS_SCHEDULER_CORE_POOL_SIZE`: The ScheduledExecutorService's core pool size. Default is 1.
 
 
-## :pencil: Design
+## 📝 Design
 
 This project follows a standard clean architecture approach, with hints of Domain-Driven design, and CQRS concepts.
 
