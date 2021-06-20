@@ -63,6 +63,10 @@ Environment variables supported are:
 
 This project follows a standard clean architecture approach, with hints of Domain-Driven design, and CQRS concepts.
 
+![architecture](./docs/architecture.drawio.svg)
+
+> This diagram only acts as a simple sketch and may not be a 1:1 representation of the current architecture.
+
 Two domain entities are clearly identifiable:
 - `Transaction`, containing the `Amount` value object (since we need custom business policies for scaling and rounding of numbers), and a timestamp, identifying when the Transaction has been created (in the real world, not in the application).
 - `Statistics` containing the well-defined set of transaction statistics (`sum`, `average`, `maximum`, `minimum`, `count`). 
