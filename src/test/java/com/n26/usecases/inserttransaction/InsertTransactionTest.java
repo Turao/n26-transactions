@@ -18,6 +18,8 @@ import java.time.OffsetDateTime;
 
 import static org.mockito.BDDMockito.then;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 @RunWith(MockitoJUnitRunner.class)
 public class InsertTransactionTest {
   
@@ -66,5 +68,16 @@ public class InsertTransactionTest {
     then(updateStatistics)
       .should(times(1))
       .execute(any());
+  }
+
+  @Test
+  public void givenAnInsertTransactionRequestWithAnOldTransaction_whenProcessing_shouldThrow() {
+    InsertTransactionRequest request = new InsertTransactionRequest(
+      new BigDecimal("12.345"), 
+      OffsetDateTime.now().minusSeconds(61)
+    );
+
+    assertThatThrownBy(() -> insertTransaction.execute(request))
+      .isInstanceOf(MoreThanAMinuteOldException.class);
   }
 }
