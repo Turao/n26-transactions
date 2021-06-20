@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.n26.usecases.expiretransaction.ExpireTransaction;
+import com.n26.usecases.expiretransaction.ExpireTransactionRequest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,7 @@ public class TransactionExpirationSchedulerTest {
   @Mock private ExpireTransaction expireTransaction;
   
   @Test
-  public void givenATransactionId_whenSchedulingForExpiration_shouldScheduleForExpiration() {
+  public void givenATransaction_whenSchedulingForExpiration_shouldScheduleForExpiration() {
     UUID transactionId = UUID.randomUUID();
     OffsetDateTime timestamp = OffsetDateTime.now().minusSeconds(59);
 
@@ -36,5 +37,19 @@ public class TransactionExpirationSchedulerTest {
     then(scheduler)
       .should(times(1))
       .schedule(any(Runnable.class), any(long.class), any(TimeUnit.class));
+  }
+
+  @Test
+  public void givenATransactionThatShouldHaveBeenExpiredAlready_whenSchedulingForExpiration_shouldExpire() {
+    UUID transactionId = UUID.randomUUID();
+    OffsetDateTime timestamp = OffsetDateTime.now().minusSeconds(61);
+
+    transactionExpirationScheduler.execute(
+      new ScheduleTransactionForExpirationRequest(transactionId, timestamp)
+    );
+
+    then(expireTransaction)
+      .should(times(1))
+      .execute(any());
   }
 }
