@@ -32,7 +32,7 @@ A `Dockerfile` has been added to the project's root directory, easing dependency
 
 A `docker-compose` file has (also) been added to the project's root directory.
 This time, the intention is to allow other developers to code within a containerized environment.
-This is a quickest way to develop, at the expense of not having a really good integration with IDEs and text editors...
+This is the quickest way to develop, at the expense of not having a really good integration with IDEs and text editors...
 - Developing from within a "*N26 container*": `docker-compose run --service-ports dev /bin/bash`
   - Once inside the container, all _Maven_ commands apply (e.g. `mvn test`)
 
