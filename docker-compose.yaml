@@ -1,16 +1,16 @@
 version: "3.9"
 services:
   dev:
-    image: n26-challenge-arthur:dev
+    image: n26-transactions-arthur:dev
     build:
       context: .
       target: build
     ports:
       - "8080:8080"
     volumes:
-      - .:/n26-challenge/
+      - .:/n26-transactions/
 
   prod:
-    image: n26-challenge-arthur:prod
+    image: n26-transactions-arthur:prod
     ports:
       - "8080:8080"
