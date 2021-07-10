@@ -125,5 +125,6 @@ Finally, Statistics are stored as a single value object and are not impacted by 
 - [x] Project has integration tests
   - > See tests @ `src/it`
 
+---
 
-> Full disclosure: No one asked me to make this repo private nor answered me when I asked about making this publicly available.
+**Full disclosure:** No one asked me to make this repo private nor answered me when I asked about making this publicly available.
