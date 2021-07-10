@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.n26</groupId>
-    <artifactId>coding-challenge</artifactId>
+    <artifactId>n26-transactions</artifactId>
     <version>1.0.3</version>
-    <name>coding-challenge</name>
-    <description>Coding Challenge for N26 - Arthur Lenz</description>
+    <name>n26-transactions</name>
+    <description>N26 Transactions - Arthur Lenz</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
