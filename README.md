@@ -1,4 +1,4 @@
-# N26 Coding Challenge
+# N26 Transactions
 
 ## Table of Contents
 1. [Description](#-Description)
@@ -8,8 +8,8 @@
 
 ## 💳 Description
 
-The **N26 Coding Challenge** application is a Spring-Boot application that provides a RESTful API for computing real-time transaction statistics.
-In this challenge, ONLY recent transactions (less than a minute old) MUST be considered. All other transactions MUST be discarded.
+The **N26 Transactions** application is a Spring-Boot application that provides a RESTful API for computing real-time transaction statistics.
+For this application, ONLY recent transactions (less than a minute old) MUST be considered. All other transactions MUST be discarded.
 
 The application provides the following endpoints:
 - `POST /transactions`: Inserts a new Transaction. Called whenever a transaction is made.
@@ -52,7 +52,7 @@ For reference, I have built this project using:
 ---
 #### Additional Notes
 
-The **N26 Coding Challenge** application uses Spring's `TaskExecutor` and Java's `ScheduledExecutorService` classes so as to provide support for asynchronous methods and scheduled tasks, respectively.
+The **N26 Transactions** application uses Spring's `TaskExecutor` and Java's `ScheduledExecutorService` classes so as to provide support for asynchronous methods and scheduled tasks, respectively.
 
 Both can be configured using environment variables - or directly, in the `application.yaml` file.
 Environment variables supported are:
@@ -110,10 +110,9 @@ Storage of Transactions has been implemented using a `ConcurrentHashMap` so as t
 Finally, Statistics are stored as a single value object and are not impacted by concurrent writes/reads due to its immutability properties.
 
 
-## 📜 Requirements
+## 📜 Features
 - [x] Application runs in Maven
   - [x] `mvn clean install` and `mvn clean integration-test` complete succesfully
-    - > This project uses the same `pom.xml` present in the "skeleton" provided by N26. Only minor tweaks have been made (e.g. addition of JaCoCo for coverage reports and OpenAPI docs)
 - [x] API is thread-safe (i.e. supports concurrent requests)
   - > `TransactionRepository` stores Transaction objects in a `ConcurrentHashMap`, Statistics are immutable by nature (value objects)
 - [x] Works without a database (including in-memory databases)
@@ -123,6 +122,8 @@ Finally, Statistics are stored as a single value object and are not impacted by 
   - > See `ScheduleTransactionForExpiration` and `ExpireTransaction` use cases
 - [x] Project has unit tests
   - > Lots of them!
-- [x] No changes have been done to integration tests @ `src/it`
-- [ ] Solution is production-ready
-  - > In my opinion, no solution will be "production-ready" within the given time frame (3 days). Production-ready applications would require tighter security at the outer layers (e.g. TransactionController), better observability (e.g. logging, monitoring, tracing), and better CI - I have configured a Docker GitHub action to make sure things **do** build successfully, yet we would still require things like code quality information, and security reports.
+- [x] Project has integration tests
+  - > See tests @ `src/it`
+
+
+> Full disclosure: No one asked me to make this repo private nor answered me when I asked about making this publicly available.
